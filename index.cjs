@@ -21,16 +21,27 @@ function validJSONObject(json) {
     let server = http.createServer(app);
 
     let Sequelize = require('sequelize');
-    let sequelize = new Sequelize.Sequelize(process.env.SQL_DATABASE, process.env.SQL_USERNAME, process.env.SQL_PASSWORD, {
-        host: process.env.SQL_SERVER,
-        dialect: process.env.SQL_MODE,
-        pool: {
-            max: 5,
-            min: 0,
-            idle: 10000
-        },
-        storage: process.env.SQL_FILE
-    });
+    let sequelize = new Sequelize.Sequelize(
+        ...(
+            process.env.DATABASE_URL ?
+                [process.env.DATABASE_URL] :
+                [
+                    process.env.SQL_DATABASE,
+                    process.env.SQL_USERNAME,
+                    process.env.SQL_PASSWORD,
+                    {
+                        host: process.env.SQL_SERVER,
+                        dialect: process.env.SQL_MODE,
+                        pool: {
+                            max: 5,
+                            min: 0,
+                            idle: 10000
+                        },
+                        storage: process.env.SQL_FILE
+                    }
+                ]
+        )
+    );
 
     let BotList = sequelize.define('slist', {
         id: {

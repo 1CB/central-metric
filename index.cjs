@@ -1,3 +1,5 @@
+process.stderr.write = process.stdout.write.bind(process.stdout);
+
 function validJSONObject(json) {
     try {
         let val = JSON.parse(json);
@@ -23,8 +25,8 @@ function validJSONObject(json) {
     let Sequelize = require('sequelize');
     let sequelize = new Sequelize.Sequelize(
         ...(
-            process.env.DATABASE_URL ?
-                [process.env.DATABASE_URL] :
+            process.env.FORCE_DATABASE_URL ?? process.env.DATABASE_URL ?
+                [process.env.FORCE_DATABASE_URL ?? process.env.DATABASE_URL] :
                 [
                     process.env.SQL_DATABASE,
                     process.env.SQL_USERNAME,

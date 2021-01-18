@@ -26,7 +26,9 @@ function validJSONObject(json) {
     let sequelize = new Sequelize.Sequelize(
         ...(
             process.env.FORCE_DATABASE_URL ?? process.env.DATABASE_URL ?
-                [process.env.FORCE_DATABASE_URL ?? process.env.DATABASE_URL] :
+                [process.env.FORCE_DATABASE_URL ?? process.env.DATABASE_URL, {
+                    dialectOptions: JSON.parse(process.env.FORCE_SQL_OPTIONS ?? process.env.SQL_OPTIONS ?? "null")
+                }] :
                 [
                     process.env.SQL_DATABASE,
                     process.env.SQL_USERNAME,

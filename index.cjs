@@ -77,9 +77,9 @@ function validJSONObject(json) {
          * @param {wsio.Socket} socket Socket
          */
         socket => {
-            socket.on("private message", async (socketID, msg) => {
+            socket.on("message", async (msg, ack) => {
                 if (typeof msg !== "object") {
-                    return socket.to(socketID).emit("private message", socket.id, {
+                    return ack({
                         error: "Invalid API call.",
                         errorDesc: "Message must be an object.",
                         errorCode: -1
@@ -88,17 +88,17 @@ function validJSONObject(json) {
 
                 switch (msg.callEvent) {
                     case "register":
-                        if (typeof msg.type !== "string") return socket.to(socketID).emit("private message", socket.id, {
+                        if (typeof msg.type !== "string") return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.type must be bot type (string)",
                             errorCode: 1
                         });
-                        if (typeof msg.version !== "string") return socket.to(socketID).emit("private message", socket.id, {
+                        if (typeof msg.version !== "string") return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.version must be version (string)",
                             errorCode: 2
                         });
-                        if (typeof msg.extraData !== "string" || !validJSONObject(msg.extraData)) return socket.to(socketID).emit("private message", socket.id, {
+                        if (typeof msg.extraData !== "string" || !validJSONObject(msg.extraData)) return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.extraData must be JSON containing bot information (string)",
                             errorCode: 3
@@ -126,7 +126,7 @@ function validJSONObject(json) {
                                 });
 
                                 // TODO: return
-                                return socket.to(socketID).emit("private message", socket.id, {
+                                return ack({
                                     nonce: msg.nonce,
                                     id: RNG.toString(16),
                                     secret: RNGSecret.toString(16)
@@ -134,12 +134,12 @@ function validJSONObject(json) {
                             }
                         }
                     case "ping":
-                        if (typeof msg.id !== "string") return socket.to(socketID).emit("private message", socket.id, {
+                        if (typeof msg.id !== "string") return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.id must be a vaild ID (string)",
                             errorCode: 4
                         });
-                        if (typeof msg.secret !== "string") return socket.to(socketID).emit("private message", socket.id, {
+                        if (typeof msg.secret !== "string") return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.secret must be a vaild secret for ID (string)",
                             errorCode: 5
@@ -148,7 +148,7 @@ function validJSONObject(json) {
                             id: parseInt(msg.id, 16),
                             secret: parseInt(msg.secret, 16)
                         });
-                        if (!CC) return socket.to(socketID).emit("private message", socket.id, {
+                        if (!CC) return ack({
                             error: "ID not found.",
                             errorDesc: "ID/Secret pair isn't on the DB.",
                             errorCode: 5
@@ -201,7 +201,7 @@ function validJSONObject(json) {
                             uptime: JSON.stringify(ut),
                             uptimeResolved: uptimePercentage
                         });
-                        return socket.to(socketID).emit("private message", socket.id, {
+                        return ack({
                             nonce: msg.nonce,
                             success: true
                         });

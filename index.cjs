@@ -10,6 +10,14 @@ function validJSONObject(json) {
     }
 }
 
+function uintToInt(bytes4) {
+    return bytes4 > 2**31 - 1 ? bytes4 - 2**32 : bytes4;
+}
+
+function intToUInt(sbytes4) {
+    return bytes4 < 0 ? bytes4 + 2**32 : bytes4;
+}
+
 (async () => {
     require("dotenv").config();
 
@@ -49,14 +57,10 @@ function validJSONObject(json) {
 
     let BotList = sequelize.define('slist', {
         id: {
-            type: Sequelize.INTEGER({
-                unsigned: true
-            }),
+            type: Sequelize.INTEGER,
             primaryKey: true
         },
-        secret: Sequelize.INTEGER({
-            unsigned: true
-        }),
+        secret: Sequelize.INTEGER,
         uptime: Sequelize.STRING,
         uptimeResolved: Sequelize.DOUBLE,
         type: Sequelize.STRING,
@@ -111,15 +115,15 @@ function validJSONObject(json) {
                             let RNGSecret = Math.floor(Math.random() * 2 ** 32);
                             let CC = await BotList.findOne({
                                 where: {
-                                    id: RNG,
-                                    secret: RNGSecret
+                                    id: uintToInt(RNG),
+                                    secret: uintToInt(RNGSecret)
                                 }
                             });
 
                             if (!CC) {
                                 await BotList.create({
-                                    id: RNG,
-                                    secret: RNGSecret,
+                                    id: uintToInt(RNG),
+                                    secret: uintToInt(RNGSecret),
                                     uptime: "[]",
                                     uptimeResolved: 1,
                                     version: msg.version,
@@ -150,8 +154,8 @@ function validJSONObject(json) {
                         });
                         let CC = await BotList.findOne({
                             where: {
-                                id: parseInt(msg.id, 16),
-                                secret: parseInt(msg.secret, 16)
+                                id: uintToInt(parseInt(msg.id, 16)),
+                                secret: uintToInt(parseInt(msg.secret, 16))
                             }
                         });
                         if (!CC) return ack({

@@ -130,7 +130,8 @@ function intToUInt(sbytes4) {
                                     firstSeen: new Date(),
                                     // A ping is only valid in 45 seconds
                                     validPingUntil: new Date(Date.now() + 45000),
-                                    type: msg.type
+                                    type: msg.type,
+                                    extraData: msg.extraData
                                 });
 
                                 // TODO: return

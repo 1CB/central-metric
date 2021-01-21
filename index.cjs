@@ -78,6 +78,8 @@ function validJSONObject(json) {
          */
         socket => {
             socket.on("message", async (msg, ack) => {
+                console.log(`Received message from ${socket.id}:`, msg);
+
                 if (typeof msg !== "object") {
                     return ack({
                         error: "Invalid API call.",

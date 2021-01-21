@@ -110,8 +110,10 @@ function validJSONObject(json) {
                             let RNG = Math.floor(Math.random() * 2 ** 32);
                             let RNGSecret = Math.floor(Math.random() * 2 ** 32);
                             let CC = await BotList.findOne({
-                                id: RNG,
-                                secret: RNGSecret
+                                where: {
+                                    id: RNG,
+                                    secret: RNGSecret
+                                }
                             });
 
                             if (!CC) {
@@ -147,8 +149,10 @@ function validJSONObject(json) {
                             errorCode: 5
                         });
                         let CC = await BotList.findOne({
-                            id: parseInt(msg.id, 16),
-                            secret: parseInt(msg.secret, 16)
+                            where: {
+                                id: parseInt(msg.id, 16),
+                                secret: parseInt(msg.secret, 16)
+                            }
                         });
                         if (!CC) return ack({
                             error: "ID not found.",

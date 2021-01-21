@@ -61,13 +61,13 @@ function intToUInt(sbytes4) {
             primaryKey: true
         },
         secret: Sequelize.INTEGER,
-        uptime: Sequelize.STRING,
+        uptime: Sequelize.TEXT,
         uptimeResolved: Sequelize.DOUBLE,
         type: Sequelize.STRING,
         version: Sequelize.STRING,
         firstSeen: Sequelize.DATE,
         validPingUntil: Sequelize.DATE,
-        extraData: Sequelize.STRING
+        extraData: Sequelize.TEXT
     });
 
     await sequelize.sync();

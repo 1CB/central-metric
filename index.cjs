@@ -137,8 +137,8 @@ function intToUInt(sbytes4) {
                                 // TODO: return
                                 return ack({
                                     nonce: msg.nonce,
-                                    id: RNG.toString(16),
-                                    secret: RNGSecret.toString(16)
+                                    id: RNG.toString(16).padStart(8, "0"),
+                                    secret: RNGSecret.toString(16).padStart(8, "0")
                                 });
                             }
                         }

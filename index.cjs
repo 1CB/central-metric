@@ -69,9 +69,7 @@ function validJSONObject(json) {
     await sequelize.sync();
 
     let wsio = require("socket.io");
-    let APIWS = new wsio.Server(server, {
-        path: "/wsapi"
-    });
+    let APIWS = new wsio.Server(server);
     let APIWS_PING = APIWS.of("/service_ping");
     APIWS_PING.on(
         "connection",
@@ -79,7 +77,6 @@ function validJSONObject(json) {
          * @param {wsio.Socket} socket Socket
          */
         socket => {
-            let currentID = "";
             socket.on("private message", async (socketID, msg) => {
                 if (typeof msg !== "object") {
                     return socket.to(socketID).emit("private message", socket.id, {
@@ -131,8 +128,8 @@ function validJSONObject(json) {
                                 // TODO: return
                                 return socket.to(socketID).emit("private message", socket.id, {
                                     nonce: msg.nonce,
-                                    id: RNG,
-                                    secret: RNGSecret
+                                    id: RNG.toString(16),
+                                    secret: RNGSecret.toString(16)
                                 });
                             }
                         }
@@ -148,8 +145,8 @@ function validJSONObject(json) {
                             errorCode: 5
                         });
                         let CC = await BotList.findOne({
-                            id: RNG,
-                            secret: RNGSecret
+                            id: parseInt(msg.id, 16),
+                            secret: parseInt(msg.secret, 16)
                         });
                         if (!CC) return socket.to(socketID).emit("private message", socket.id, {
                             error: "ID not found.",
@@ -203,6 +200,10 @@ function validJSONObject(json) {
                             ...updateObj,
                             uptime: JSON.stringify(ut),
                             uptimeResolved: uptimePercentage
+                        });
+                        return socket.to(socketID).emit("private message", socket.id, {
+                            nonce: msg.nonce,
+                            success: true
                         });
                 }
             });

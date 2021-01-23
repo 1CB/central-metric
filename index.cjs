@@ -201,10 +201,7 @@ function intToUInt(sbytes4) {
                             temp2.push([temp[2 * i], temp[2 * i + 1]]);
                         }
                         let temp3 = temp2.map(v => v[1] ? v[1] - v[0] : Date.now() - v[0]);
-                        let trackingStart = CC.get("firstSeen").getTime() < Date.now() - (1000 * 3600 * 24 * 7) ?
-                            Date.now() - (1000 * 3600 * 24 * 7) :
-                            CC.get("firstSeen").getTime();
-                        let percentageRange = Date.now() - trackingStart;
+                        let percentageRange = Date.now() - temp[0];
                         let uptimePercentage = temp3.reduce((a, v) => a + v, 0) / percentageRange;
 
                         CC.update({

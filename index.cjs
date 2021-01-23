@@ -205,7 +205,7 @@ function intToUInt(sbytes4) {
                             Date.now() - (1000 * 3600 * 24 * 7) :
                             CC.get("firstSeen").getTime();
                         let percentageRange = Date.now() - trackingStart;
-                        let uptimePercentage = temp3.reduce((a, v) => a + v) / percentageRange;
+                        let uptimePercentage = temp3.reduce((a, v) => a + v, 0) / percentageRange;
 
                         CC.update({
                             ...updateObj,

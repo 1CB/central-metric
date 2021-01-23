@@ -168,12 +168,13 @@ function intToUInt(sbytes4) {
                         let updateObj = {
                             validPingUntil: new Date(Date.now() + 45000)
                         }
+
                         if (typeof msg.type === "string") updateObj.type = msg.type;
                         if (typeof msg.version === "string") updateObj.version = msg.version;
                         if (typeof msg.extraData === "string" && !validJSONObject(msg.extraData)) updateObj.extraData = msg.extraData;
 
                         let ut = JSON.parse(CC.get("uptime"));
-                        if (Date.now() > CC.get("validPingUntil")) {
+                        if (Date.now() > CC.get("validPingUntil").getTime()) {
                             // Update uptime
                             if (ut.length % 2 === 0) {
                                 ut.push(CC.get("validPingUntil").getTime());

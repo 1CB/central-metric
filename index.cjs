@@ -176,7 +176,7 @@ function intToUInt(sbytes4) {
                         if (Date.now() > CC.get("validPingUntil")) {
                             // Update uptime
                             if (ut.length % 2 === 0) {
-                                ut.push(CC.get("validPingUntil").getDate());
+                                ut.push(CC.get("validPingUntil").getTime());
                             }
                             ut.push(Date.now());
                         }
@@ -186,7 +186,7 @@ function intToUInt(sbytes4) {
                         let temp = [];
                         if (startFrom === -1) {
                             // All of them. 
-                            temp = [CC.get("firstSeen").getDate(), ...ut];
+                            temp = [CC.get("firstSeen").getTime(), ...ut];
                         } else {
                             let actualStart = ut.length - 1 - startFrom;
                             if (actualStart % 2 === 0) {
@@ -201,9 +201,9 @@ function intToUInt(sbytes4) {
                             temp2.push([temp[2 * i], temp[2 * i + 1]]);
                         }
                         let temp3 = temp2.map(v => v[1] ? v[1] - v[0] : Date.now() - v[0]);
-                        let trackingStart = CC.get("firstSeen").getDate() < Date.now() - (1000 * 3600 * 24 * 7) ?
+                        let trackingStart = CC.get("firstSeen").getTime() < Date.now() - (1000 * 3600 * 24 * 7) ?
                             Date.now() - (1000 * 3600 * 24 * 7) :
-                            CC.get("firstSeen").getDate();
+                            CC.get("firstSeen").getTime();
                         let percentageRange = Date.now() - trackingStart;
                         let uptimePercentage = temp3.reduce((a, v) => a + v) / percentageRange;
 

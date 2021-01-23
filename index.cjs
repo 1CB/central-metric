@@ -181,6 +181,7 @@ function intToUInt(sbytes4) {
                             }
                             ut.push(Date.now());
                         }
+                        ut = ut.sort((a, b) => a - b);
 
                         // Calculating uptime percentage (based on last 7 days)
                         let startFrom = ut.reverse().findIndex(v => v < Date.now() - (1000 * 3600 * 24 * 7));

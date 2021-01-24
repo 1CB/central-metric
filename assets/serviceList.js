@@ -8,7 +8,7 @@ window.addEventListener("load", async () => {
         STATUS.style.display = "none";
     })
     socket.once("connect", async () => {
-        document.querySelector("div#loadingscreen").animate([
+        document.querySelector("div#loadingScreen").animate([
             {
                 opacity: 1,
                 display: "block"

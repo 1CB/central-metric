@@ -262,9 +262,9 @@ function intToUInt(sbytes4) {
 
                         let updatedData = CC.get();
                         APIWS_DATA
-                            .to("s_" + parseInt(msg.id, 16).padStart(8, "0"))
+                            .to("s_" + parseInt(msg.id, 16).toString(16).padStart(8, "0"))
                             .emit("service_update", {
-                                id: parseInt(msg.id, 16).padStart(8, "0"),
+                                id: parseInt(msg.id, 16).toString(16).padStart(8, "0"),
                                 extraData: updatedData.extraData,
                                 uptime: updatedData.uptimeResolved,
                                 type: updatedData.type,

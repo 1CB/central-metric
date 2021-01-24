@@ -19,17 +19,32 @@
         crossorigin="anonymous"></script>
     <script src="/assets/serviceList.js" async></script>
 </head>
+
 <body style="overflow: hidden;">
     <!-- Loading screen -->
-    <div style="width: 100%; height: 100%; position: fixed; z-index: 9999999; top: 0px; left: 0px; background-color: white;" id="loadingScreen">
-        <img src="/assets/loading.svg" alt="LOADING..." style="width: 200px; height: 200px; position: absolute; top: 50%; left: 50%; margin-top: -100px; margin-left: -100px;">
+    <div style="width: 100%; height: 100%; position: fixed; z-index: 9999999; top: 0px; left: 0px; background-color: white;"
+        id="loadingScreen">
+        <img src="/assets/loading.svg" alt="LOADING..."
+            style="width: 200px; height: 200px; position: absolute; top: 50%; left: 50%; margin-top: -100px; margin-left: -100px;">
     </div>
-    <div style="width: 100%; height: 100%; position: fixed; z-index: 9999998; top: 0px; left: 0px; background-color: white; display: none; background-color: rgba(0, 0, 0, 0.5); justify-content: center;" id="viewDetails">
-        <div id="windowDetails" style="width: fit-content; height: fit-content; margin: 0 auto; align-self: center;">
-            ID: <span id="detailsID"></span>
-            Raw Data: <br>
-            <textarea cols="80" rows="30" id="detailsRawData"></textarea><br>
-            <br><a href="javascript:void(document.querySelector('#viewDetails').style.display = 'none')">Close</a>
+
+    <!-- Details - overlay -->
+    <div id="viewDetails">
+        <div id="windowDetails">
+            <div class="windowBar">
+                <div class="windowTitle">ID <span id="wDTitleID"></span> - Details</div>
+                <div class="windowButton">
+                    <button
+                        onclick="javascript:void(document.querySelector('#viewDetails').style.display = 'none')">✖</button>
+                </div>
+            </div>
+            <div class="windowContent">
+                <div class="windowCBox">
+                    ID: <span id="detailsID"></span><br>
+                    ExtraData JSON: <br>
+                    <textarea id="detailsRawData" rows="4"></textarea><br>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -121,9 +136,9 @@
 
     <footer>
         <div>
-            2021 &copy; <a target="_blank"
-            href="https://www.facebook.com/VTD1709/">BinFat (frontend)
-        </a> + <a target="_blank" href="https://github.com/BadAimWeeb">BadAimWeeb/KRSR (backend + logic)</a>&nbsp; @ <a target="_blank" href="https://github.com/Project-Dec1mus">TeamDec1mus</a>
+            2021 &copy; <a target="_blank" href="https://www.facebook.com/VTD1709/">BinFat (frontend)
+            </a> + <a target="_blank" href="https://github.com/BadAimWeeb">BadAimWeeb/KRSR (backend + logic)</a>&nbsp; @
+            <a target="_blank" href="https://github.com/Project-Dec1mus">TeamDec1mus</a>
             &nbsp;&nbsp;&nbsp;&nbsp;<span id="status" style="color: red; float: right;">Connection lost!</span>
         </div>
     </footer>

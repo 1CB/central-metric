@@ -104,8 +104,8 @@ function intToUInt(bytes4) {
                         let d = await BotList.findAll({
                             limit: 20,
                             order: [
-                                ['firstSeen', 'ASC'],
-                                ['uptimeResolved', 'DESC']
+                                ['uptimeResolved', 'DESC'],
+                                ['firstSeen', 'ASC']
                             ],
                             where: {
                                 validPingUntil: {
@@ -121,7 +121,11 @@ function intToUInt(bytes4) {
                             version: v.version,
                             firstSeen: v.firstSeen,
                             validPingUntil: v.validPingUntil
-                        })).sort((a, b) => a.uptime - b.uptime));
+                        })).sort(
+                            (a, b) => Math.abs(b.uptime - a.uptime) > 5 ? 
+                                b.uptime - a.uptime : 
+                                a.firstSeen.getTime() - b.firstSeen.getTime()
+                        ));
                     case "listenServiceChange":
                         if (typeof msg.id !== "string" || isNaN(parseInt(msg.id))) return ack({
                             error: "Invalid API call.",

@@ -4,12 +4,14 @@
 }
 
 /* Works on Firefox */
+
 * {
     scrollbar-width: 10px;
     scrollbar-color: var(--scrollbar-bg) var(--scrollbar-fg);
 }
 
 /* Works on Chrome, Edge, and Safari */
+
 *::-webkit-scrollbar {
     width: 4px;
 }
@@ -20,95 +22,95 @@
 
 *::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-bg);
-    border-radius   : 2px;
-    border          : 0px solid var(--scrollbar-fg);
+    border-radius: 2px;
+    border: 0px solid var(--scrollbar-fg);
 }
 
 body {
-    background           : url(/assets/background.png);
-    background-repeat    : no-repeat;
-    background-size      : cover;
+    background: url(/assets/background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
     background-attachment: fixed;
 }
 
 header {
     background-color: rgba(0, 0, 0, 1);
-    border-bottom   : 1px solid rgba(255, 255, 255, 0.5);
-    position        : fixed;
-    z-index         : 100;
-    width           : 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    position: fixed;
+    z-index: 100;
+    width: 100%;
 }
 
 header>* {
     display: block;
-    float  : left;
+    float: left;
 }
 
 footer {
     background-color: black;
-    color           : antiquewhite;
-    border-bottom   : 1px solid rgba(255, 255, 255, 0.5);
-    width           : 100%;
-    height          : 40px;
-    position        : fixed;
-    bottom          : 0;
-    padding         : 8px;
-    font-weight     : bold;
+    color: antiquewhite;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    width: 100%;
+    height: 40px;
+    position: fixed;
+    bottom: 0;
+    padding: 8px;
+    font-weight: bold;
 }
 
 main {
-    padding-top   : 72px;
+    padding-top: 72px;
     padding-bottom: 45px;
 }
 
 .selector {
-    height        : 56px;
-    padding       : 16px;
+    height: 56px;
+    padding: 16px;
     vertical-align: middle;
-    color         : white;
+    color: white;
 }
 
 .selector:hover {
     background: white;
-    color     : red;
-    cursor    : pointer;
+    color: red;
+    cursor: pointer;
 }
 
 .table-chart1 {
     padding-right: 15px;
-    font-size    : 18px;
-    color        : white;
+    font-size: 18px;
+    color: white;
     border-radius: 5px;
-    flex         : 1;
+    flex: 1;
 }
 
 .table-chart2 {
-    font-size    : 18px;
-    color        : white;
-    padding-left : 15px;
+    font-size: 18px;
+    color: white;
+    padding-left: 15px;
     border-radius: 5px;
-    flex         : 1;
+    flex: 1;
 }
 
 .table-chart-content {
-    border-radius   : 5px;
+    border-radius: 5px;
     background-color: antiquewhite;
-    color           : black;
-    height          : 100%;
+    color: black;
+    height: 100%;
 }
 
 .table-chart-content>.tccheader {
-    background-color       : #36304a;
-    border-top             : 1px solid #36304a;
-    border-left            : 1px solid #36304a;
-    border-right           : 1px solid #36304a;
-    border-top-left-radius : 5px;
+    background-color: #36304a;
+    border-top: 1px solid #36304a;
+    border-left: 1px solid #36304a;
+    border-right: 1px solid #36304a;
+    border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    padding-left           : 10px;
-    height                 : 32px;
-    vertical-align         : middle;
-    font-weight            : bold;
-    color                  : white;
+    padding-left: 10px;
+    height: 32px;
+    vertical-align: middle;
+    font-weight: bold;
+    color: white;
 }
 
 .table-chart-content>.tcccontent {
@@ -117,13 +119,12 @@ main {
 
 footer>div>a {
     text-decoration: none;
-    color          : antiquewhite;
+    color: antiquewhite;
 }
 
-th,
-td {
+th, td {
     word-break: break-all;
-    padding   : 8px;
+    padding: 8px;
 }
 
 td.column1 {
@@ -132,37 +133,32 @@ td.column1 {
 
 table {
     width: 100%;
-
 }
 
 td {
-    border          : 1px solid black;
+    border: 1px solid black;
     background-color: antiquewhite
 }
 
 th {
-    border          : 1px solid black;
+    border: 1px solid black;
     background-color: #36304a;
-    color           : white;
+    color: white;
 }
 
-table tr:first-child td,
-th {
+table tr:first-child td, th {
     border-top: 0;
 }
 
-table tr td:first-child,
-th:first-child {
+table tr td:first-child, th:first-child {
     border-left: 0;
 }
 
-table tr:last-child td,
-th {
+table tr:last-child td, th {
     border-bottom: 0;
 }
 
-table tr td:last-child,
-th:last-child {
+table tr td:last-child, th:last-child {
     border-right: 0;
 }
 
@@ -180,4 +176,83 @@ tr:last-child td:first-child {
 
 tr:last-child td:last-child {
     border-bottom-right-radius: 10px;
+}
+
+@media only screen and (max-width: 480px) {
+    footer {
+        display: none;
+    }
+    #fhead {
+        display: block;
+    }
+}
+
+#viewDetails {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9999998;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+#windowDetails {
+    width: fit-content;
+    height: fit-content;
+    max-width: 80%;
+    max-height: 80%;
+    min-width: 100px;
+    min-height: 100px;
+    margin: 0 auto;
+    padding: 8px;
+
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.windowBar {
+    width: 100%;
+    padding: 2px;
+    border: 2px solid rgb(192, 192, 192);
+    background: rgb(0, 0, 207);
+    height: 20px;
+}
+
+.windowTitle {
+    color: #eee;
+    justify-self: center;
+    padding-left: 4px;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.windowButton {
+    float: right;
+}
+
+.windowButton > button {
+    height: 18px;
+    width: 18px;
+    margin: 1px;
+    background: rgb(192, 192, 192);
+    font-size: 16px;
+    border: 1.5px solid black;
+}
+
+.windowContent {
+    background: rgb(192, 192, 192);
+    margin: 1px;
+}
+
+.windowCBox {
+    margin: 1px;
+    width: fit-content;
+    height: fit-content;
 }

@@ -116,10 +116,10 @@ window.addEventListener("load", async () => {
         let initialData = await socket.sendAsyncACK({
             callEvent: "initialList"
         });
-        initialData.forEach(x => {
+        await Promise.all(initialData.map(x => {
             window.serviceData[x.id] = x;
-            registerActiveService(x.id);
-        });
+            return registerActiveService(x.id);
+        }));
         renderServiceList();
 
         document.querySelector("div#loadingScreen").animate([
@@ -129,8 +129,7 @@ window.addEventListener("load", async () => {
             {
                 opacity: 0
             }
-        ], 1000);
-        await new Promise(x => setTimeout(x, 1000));
+        ], 1500);
         document.body.style.overflow = "auto";
         document.querySelector("div#loadingScreen").style.display = "none";
     });

@@ -10,16 +10,15 @@ window.addEventListener("load", async () => {
     socket.once("connect", async () => {
         document.querySelector("div#loadingScreen").animate([
             {
-                opacity: 1,
-                display: "block"
+                opacity: 1
             },
             {
-                opacity: 0,
-                display: "none"
+                opacity: 0
             }
         ], 1000);
         await new Promise(x => setTimeout(x, 1000));
         document.body.style.overflow = "scroll";
+        document.querySelector("div#loadingScreen").style.display = "none";
     });
     socket.on("disconnect", () => {
         STATUS.innerHTML = "Connection lost!";

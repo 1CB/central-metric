@@ -100,7 +100,7 @@ function isActiveService(id) {
 
 async function initList() {
     /** @type {Array<{id: string}>} */
-    let initialData = await socket.sendAsyncACK({
+    let initialData = await window.ioSocket.sendAsyncACK({
         callEvent: "initialList"
     });
 

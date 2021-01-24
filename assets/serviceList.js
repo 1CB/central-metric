@@ -4,7 +4,8 @@ window.activeRender = [];
 window.viewAdditionalInfo = function (id) {
     document.getElementById("viewDetails").style.display = "block";
     document.getElementById("detailsID").innerText = id;
-    document.getElementById("detailsRawData").value = JSON.stringify(window.serviceData[id], null, 4);
+    document.getElementById("wDTitleID").innerText = id;
+    document.getElementById("detailsRawData").value = JSON.stringify(JSON.parse(window.serviceData[id].extraData), null, 4);
 }
 
 function queueFS() { }
@@ -137,7 +138,7 @@ window.addEventListener("load", async () => {
 
         socket.on("connect", async () => {
             await initList();
-    
+
             STATUS.innerHTML = "";
             STATUS.style.display = "none";
         })

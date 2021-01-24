@@ -11,11 +11,11 @@ function validJSONObject(json) {
 }
 
 function uintToInt(bytes4) {
-    return bytes4 > 2**31 - 1 ? bytes4 - 2**32 : bytes4;
+    return bytes4 > 2 ** 31 - 1 ? bytes4 - 2 ** 32 : bytes4;
 }
 
 function intToUInt(sbytes4) {
-    return bytes4 < 0 ? bytes4 + 2**32 : bytes4;
+    return bytes4 < 0 ? bytes4 + 2 ** 32 : bytes4;
 }
 
 (async () => {
@@ -75,6 +75,54 @@ function intToUInt(sbytes4) {
     let wsio = require("socket.io");
     let APIWS = new wsio.Server(server);
     let APIWS_PING = APIWS.of("/service_ping");
+    let APIWS_DATA = APIWS.of("/service_list");
+
+    APIWS_DATA.on(
+        "connection",
+        /**
+         * @param {wsio.Socket} socket Socket
+         */
+        socket => {
+            socket.on("message", async (msg, ack) => {
+                console.log(`LISTAPI / ${socket.id}:`, JSON.stringify(msg));
+
+                if (typeof msg !== "object") {
+                    return ack({
+                        error: "Invalid API call.",
+                        errorDesc: "Message must be an object.",
+                        errorCode: -1
+                    });
+                }
+
+                switch (msg.type) {
+                    case "initialList":
+                        let d = await BotList.findAll({
+                            limit: 20,
+                            order: [
+                                ['firstSeen', 'ASC'],
+                                ['uptimeResolved', 'DESC']
+                            ],
+                            where: {
+                                validPingUntil: {
+                                    [Sequelize.Op.gt]: new Date()
+                                }
+                            }
+                        });
+                        return ack(d.map(v => v.get()).map(v => ({
+                            id: v.id,
+                            extraData: v.extraData,
+                            uptime: v.uptimeResolved,
+                            type: v.type,
+                            version: v.version,
+                            firstSeen: v.firstSeen,
+                            validPingUntil: v.validPingUntil
+                        })));
+                    
+                }
+            });
+        }
+    )
+
     APIWS_PING.on(
         "connection",
         /**
@@ -82,7 +130,7 @@ function intToUInt(sbytes4) {
          */
         socket => {
             socket.on("message", async (msg, ack) => {
-                console.log(`Received message from ${socket.id}:`, msg);
+                console.log(`PINGAPI / ${socket.id}:`, JSON.stringify(msg));
 
                 if (typeof msg !== "object") {
                     return ack({
@@ -211,6 +259,20 @@ function intToUInt(sbytes4) {
                             uptime: JSON.stringify(ut),
                             uptimeResolved: uptimePercentage
                         });
+
+                        let updatedData = CC.get();
+                        APIWS_DATA
+                            .to("s_" + parseInt(msg.id, 16).padStart(8, "0"))
+                            .emit("service_update", {
+                                id: parseInt(msg.id, 16).padStart(8, "0"),
+                                extraData: updatedData.extraData,
+                                uptime: updatedData.uptimeResolved,
+                                type: updatedData.type,
+                                version: updatedData.version,
+                                firstSeen: updatedData.firstSeen,
+                                validPingUntil: updatedData.validPingUntil
+                            });
+
                         return ack({
                             nonce: msg.nonce,
                             success: true

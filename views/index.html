@@ -14,9 +14,17 @@
         integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/mainMenu.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.min.js"
+        integrity="sha512-ZqQWGugamKhlSUqM1d/HMtwNG+hITmd/ptoof91lt5ojFZ+2bKlkvlzkmnDIrnikDY+UDVZVupLf6MNbuhtFSw=="
+        crossorigin="anonymous"></script>
+    <script src="/assets/serviceList.js" async></script>
 </head>
+<body style="overflow: hidden;">
+    <!-- Loading screen -->
+    <div style="width: 100%; height: 100%; position: fixed; z-index: 9999999; top: 0px; left: 0px; background-color: white;" id="loadingScreen">
+        <img src="/assets/loading.svg" alt="LOADING..." style="width: 200px; height: 200px; position: absolute; top: 50%; left: 50%; margin-top: -100px; margin-left: -100px;">
+    </div>
 
-<body>
     <header>
         <div style="width: 56px; height: 56px;">
             <img style="width: 56px; height: 56px; padding: 8px;" src="/assets/logo.jpg" alt="Logo">
@@ -108,6 +116,7 @@
             2021 &copy; <a target="_blank" href="https://github.com/BadAimWeeb">BAW</a> + <a target="_blank"
                 href="https://www.facebook.com/VTD1709/">BinFat
             </a>&nbsp; <a target="_blank" href="https://github.com/Project-Dec1mus">(TeamDec1mus)</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span id="status" style="color: red;">Connection lost!</span>
         </div>
     </footer>
 </body>

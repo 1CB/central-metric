@@ -120,9 +120,9 @@ window.addEventListener("load", async () => {
         return new Promise(x => socket.send(...d, x));
     }
     window.ioSocket = socket;
-    socket.on("connect", () => {
+    socket.on("connect", async () => {
         await initList();
-        
+
         STATUS.innerHTML = "";
         STATUS.style.display = "none";
     })

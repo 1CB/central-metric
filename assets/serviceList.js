@@ -59,7 +59,7 @@ async function registerActiveService(id) {
     }
 }
 function isActiveService(id) {
-    return window.activeRender.has(id);
+    return window.activeRender.contains(id);
 }
 
 window.addEventListener("load", async () => {

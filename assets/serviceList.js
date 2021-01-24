@@ -45,9 +45,9 @@ function renderServiceList() {
 
             u.style.backgroundColor = (() => {
                 switch (true) {
-                    case window.serviceData[id].uptime > 0.9:
+                    case window.serviceData[id].uptime >= 0.895:
                         return "green";
-                    case window.serviceData[id].uptime > 0.7:
+                    case window.serviceData[id].uptime >= 0.695:
                         return "yellow";
                     default:
                         return "red";

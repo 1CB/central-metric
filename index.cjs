@@ -104,8 +104,7 @@ function intToUInt(bytes4) {
                         let d = await BotList.findAll({
                             limit: 20,
                             order: [
-                                ['uptimeResolved', 'DESC'],
-                                ['firstSeen', 'ASC']
+                                ['uptimeResolved', 'DESC']
                             ],
                             where: {
                                 validPingUntil: {
@@ -113,6 +112,7 @@ function intToUInt(bytes4) {
                                 }
                             }
                         });
+                        
                         return ack(d.map(v => v.get()).map(v => ({
                             id: intToUInt(v.id).toString(16).padStart(8, "0"),
                             extraData: v.extraData,

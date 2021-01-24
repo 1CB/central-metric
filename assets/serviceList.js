@@ -135,7 +135,8 @@ window.addEventListener("load", async () => {
         document.body.style.overflow = "auto";
         await new Promise(x => setTimeout(x, 1499));
         document.querySelector("div#loadingScreen").style.display = "none";
-
+        STATUS.innerHTML = "";
+        STATUS.style.display = "none";
         socket.on("connect", async () => {
             await initList();
 

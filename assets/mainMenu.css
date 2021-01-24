@@ -254,6 +254,7 @@ tr:last-child td:last-child {
 .windowContent {
     background: rgb(192, 192, 192);
     margin: 1px;
+    padding: 4px;
 }
 
 .windowCBox {
@@ -263,6 +264,11 @@ tr:last-child td:last-child {
 }
 
 #detailsRawData {
+    width: fit-content;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#detailsDesc {
     width: fit-content;
     font-family: 'Courier New', Courier, monospace;
 }

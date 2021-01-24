@@ -2,10 +2,12 @@ window.serviceData = {};
 window.activeRender = [];
 
 window.viewAdditionalInfo = function (id) {
+    let extraData = JSON.parse((window.serviceData[id] || {}).extraData || "{}");
     document.getElementById("viewDetails").style.display = "block";
     document.getElementById("detailsID").innerText = id;
     document.getElementById("wDTitleID").innerText = id;
-    document.getElementById("detailsRawData").value = JSON.stringify(JSON.parse(window.serviceData[id].extraData), null, 4);
+    document.getElementById("detailsRawData").value = JSON.stringify(extraData, null, 4);
+    document.getElementById("detailsDesc").value = extraData.description;
 }
 
 function queueFS() { }

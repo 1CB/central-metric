@@ -121,7 +121,7 @@ function intToUInt(bytes4) {
                             version: v.version,
                             firstSeen: v.firstSeen,
                             validPingUntil: v.validPingUntil
-                        }))).sort((a, b) => a.uptime - b.uptime);
+                        })).sort((a, b) => a.uptime - b.uptime));
                     case "listenServiceChange":
                         if (typeof msg.id !== "string" || isNaN(parseInt(msg.id))) return ack({
                             error: "Invalid API call.",

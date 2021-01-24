@@ -31,8 +31,7 @@ async function renderServiceList() {
             trChild[2].innerText = window.serviceData[id].version;
             trChild[3].innerText = Math.round(window.serviceData[id].uptime * 100) + "%";
 
-            /** @type {Date} */
-            let f = window.serviceData[id].firstSeen;
+            let f = new Date(window.serviceData[id].firstSeen);
             let p0 = (n, l = 2) => n.toString().padStart(l, "0");
             trChild[4].innerText = `${p0(f.getUTCFullYear(), 4)}/${p0(f.getUTCMonth() + 1)}/${p0(f.getUTCDate())} ${p0(f.getUTCHours())}:${p0(f.getUTCMinutes())}:${p0(f.getUTCSeconds())} GMT`;
 

@@ -80,7 +80,7 @@ window.addEventListener("load", async () => {
         /** @type {Array<{id: string}>} */
         let initialData = await socket.sendAsyncACK({
             callEvent: "initialList"
-        }, x);
+        });
         initialData.forEach(x => {
             window.serviceData[x.id] = x;
             registerActiveService(x.id);

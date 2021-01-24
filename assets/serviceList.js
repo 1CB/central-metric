@@ -29,6 +29,11 @@ function renderServiceList() {
             u.style.backgroundColor = "red";
             u.style.color = "white";
             u.style.borderRadius = "6px";
+            u.style.width = "fit-content";
+            u.style.height = "fit-content";
+            u.style.textShadow = "-1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000";
+            u.style.paddingLeft = u.style.paddingRight =
+                u.style.paddingTop = u.style.paddingBottom = "4px";
 
             trChild[4].innerText = "";
             trChild[5].innerHTML = "Not available";
@@ -50,6 +55,11 @@ function renderServiceList() {
             })();
             u.style.color = "white";
             u.style.borderRadius = "6px";
+            u.style.width = "fit-content";
+            u.style.height = "fit-content";
+            u.style.textShadow = "-1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000";
+            u.style.paddingLeft = u.style.paddingRight =
+                u.style.paddingTop = u.style.paddingBottom = "4px";
 
             let f = new Date(window.serviceData[id].firstSeen);
             let p0 = (n, l = 2) => n.toString().padStart(l, "0");

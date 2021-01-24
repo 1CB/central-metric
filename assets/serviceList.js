@@ -44,10 +44,10 @@ async function renderServiceList() {
     }
 
     // Clear child in tbody
-    [...tableData.children].forEach(tableData.removeChild);
+    [...tableData.children].forEach(v => tableData.removeChild(v));
     
     // Add new child
-    tdr.forEach(tableData.appendChild);
+    tdr.forEach(v => tableData.appendChild(v));
 }
 
 async function registerActiveService(id) {

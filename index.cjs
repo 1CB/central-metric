@@ -99,7 +99,7 @@ function intToUInt(sbytes4) {
                     });
                 }
 
-                switch (msg.type) {
+                switch (msg.callEvent) {
                     case "initialList":
                         let d = await BotList.findAll({
                             limit: 20,

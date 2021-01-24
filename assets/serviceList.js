@@ -38,7 +38,7 @@ async function renderServiceList() {
             trChild[5].innerHTML = `<a href="javascript:void(viewAdditionalInfo('${id}'))">Info</a>`;
         }
 
-        trChild.forEach(tr.appendChild);
+        trChild.forEach(v => tr.appendChild(v));
         tdr.push(tr);
     }
 

@@ -50,9 +50,12 @@ async function renderServiceList() {
     tdr.forEach(tableData.appendChild);
 }
 
-function registerActiveService(id) {
+async function registerActiveService(id) {
     if (window.ioSocket) {
-        window.ioSocket.join("s_" + id);
+        await window.ioSocket.sendAsyncACK({
+            callEvent: "listenServiceChange",
+            id
+        });
         window.activeRender.push(id);
     }
 }
@@ -65,6 +68,9 @@ window.addEventListener("load", async () => {
     const STATUS = document.querySelector("span#status");
 
     let socket = io("wss://" + window.location.hostname + "/service_list");
+    socket.sendAsyncACK = function (...d) {
+        return new Promise(x => socket.send(...d, x));
+    }
     window.ioSocket = socket;
     socket.on("connect", () => {
         STATUS.innerHTML = "";
@@ -72,9 +78,9 @@ window.addEventListener("load", async () => {
     })
     socket.once("connect", async () => {
         /** @type {Array<{id: string}>} */
-        let initialData = await new Promise(x => socket.send({
+        let initialData = await socket.sendAsyncACK({
             callEvent: "initialList"
-        }, x));
+        }, x);
         initialData.forEach(x => {
             window.serviceData[x.id] = x;
             registerActiveService(x.id);

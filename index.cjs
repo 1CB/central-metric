@@ -122,7 +122,22 @@ function intToUInt(sbytes4) {
                             firstSeen: v.firstSeen,
                             validPingUntil: v.validPingUntil
                         })));
-
+                    case "listenServiceChange":
+                        if (typeof msg.id !== "string" || isNaN(parseInt(msg.id))) return ack({
+                            error: "Invalid API call.",
+                            errorDesc: "message.id must be a valid ID string.",
+                            errorCode: 101
+                        });
+                        await socket.join("s_" + msg.id);
+                        return ack({ success: true });
+                    case "stopListenServiceChange":
+                        if (typeof msg.id !== "string" || isNaN(parseInt(msg.id))) return ack({
+                            error: "Invalid API call.",
+                            errorDesc: "message.id must be a valid ID string.",
+                            errorCode: 101
+                        });
+                        await socket.leave("s_" + msg.id);
+                        return ack({ success: true });
                 }
             });
         }
@@ -215,7 +230,7 @@ function intToUInt(sbytes4) {
                         if (!CC) return ack({
                             error: "ID not found.",
                             errorDesc: "ID/Secret pair isn't on the DB.",
-                            errorCode: 5
+                            errorCode: 6
                         });
 
                         let updateObj = {

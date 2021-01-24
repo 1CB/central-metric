@@ -98,6 +98,19 @@ function isActiveService(id) {
     return window.activeRender.includes(id);
 }
 
+async function initList() {
+    /** @type {Array<{id: string}>} */
+    let initialData = await socket.sendAsyncACK({
+        callEvent: "initialList"
+    });
+
+    for (let x of initialData) {
+        window.serviceData[x.id] = x;
+        await registerActiveService(x.id);
+    }
+    renderServiceList();
+}
+
 window.addEventListener("load", async () => {
     /** @type {HTMLSpanElement} */
     const STATUS = document.querySelector("span#status");
@@ -108,21 +121,12 @@ window.addEventListener("load", async () => {
     }
     window.ioSocket = socket;
     socket.on("connect", () => {
+        await initList();
+        
         STATUS.innerHTML = "";
         STATUS.style.display = "none";
     })
     socket.once("connect", async () => {
-        /** @type {Array<{id: string}>} */
-        let initialData = await socket.sendAsyncACK({
-            callEvent: "initialList"
-        });
-
-        for (let x of initialData) {
-            window.serviceData[x.id] = x;
-            await registerActiveService(x.id);
-        }
-        renderServiceList();
-
         document.querySelector("div#loadingScreen").animate([
             {
                 opacity: 1
@@ -132,6 +136,7 @@ window.addEventListener("load", async () => {
             }
         ], 1500);
         document.body.style.overflow = "auto";
+        await new Promise(x => setTimeout(x, 1499));
         document.querySelector("div#loadingScreen").style.display = "none";
     });
     socket.on("disconnect", () => {

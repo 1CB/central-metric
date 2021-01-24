@@ -122,8 +122,10 @@ function intToUInt(bytes4) {
                             firstSeen: v.firstSeen,
                             validPingUntil: v.validPingUntil
                         })).sort(
+                            (a, b) => b.uptime - a.uptime
+                        ).sort(
                             (a, b) => Math.abs(b.uptime - a.uptime) > 5 ? 
-                                b.uptime - a.uptime : 
+                                0 : 
                                 a.firstSeen.getTime() - b.firstSeen.getTime()
                         ));
                     case "listenServiceChange":

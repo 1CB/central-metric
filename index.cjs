@@ -241,6 +241,7 @@ function intToUInt(bytes4) {
                         if (typeof msg.version === "string") updateObj.version = msg.version;
                         if (typeof msg.extraData === "string" && !validJSONObject(msg.extraData)) updateObj.extraData = msg.extraData;
 
+                        /** @type {number[]} */
                         let ut = JSON.parse(CC.get("uptime"));
                         if (Date.now() > CC.get("validPingUntil").getTime()) {
                             // Update uptime
@@ -249,7 +250,7 @@ function intToUInt(bytes4) {
                             }
                             ut.push(Date.now());
                         }
-                        ut = ut.sort((a, b) => a - b);
+                        ut = ut.sort((a, b) => b - a);
 
                         // Calculating uptime percentage (based on last 7 days)
                         let startFrom = ut.reverse().findIndex(v => v < Date.now() - (1000 * 3600 * 24 * 7));

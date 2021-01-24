@@ -1,9 +1,9 @@
 window.serviceData = {};
 window.activeRender = [];
 
-function queueFS() {}
+function queueFS() { }
 
-async function renderServiceList() {
+function renderServiceList() {
     /** @type {HTMLTableSectionElement} */
     let tableData = document.querySelector("table#serviceList > tbody");
 
@@ -24,12 +24,28 @@ async function renderServiceList() {
             trChild[1].innerText = "";
             trChild[2].innerText = "";
             trChild[3].innerText = "0%";
+            trChild[3].style.color = "white";
+            trChild[3].style.backgroundColor = "red";
+            trChild[3].style.borderRadius = "4px";
             trChild[4].innerText = "";
             trChild[5].innerHTML = "Not available";
         } else {
             trChild[1].innerText = window.serviceData[id].type;
             trChild[2].innerText = window.serviceData[id].version;
-            trChild[3].innerText = Math.round(window.serviceData[id].uptime * 100) + "%";
+            trChild[3].innerText = Math.round((window.serviceData[id].uptime > 1 ? 1 : window.serviceData[id].uptime) * 100) + "%";
+
+            trChild[3].style.backgroundColor = (() => {
+                switch (true) {
+                    case window.serviceData[id].uptime > 0.9:
+                        return "brightgreen";
+                    case window.serviceData[id].uptime > 0.7:
+                        return "yellow";
+                    default:
+                        return "red";
+                }
+            })();
+            trChild[3].style.color = "white";
+            trChild[3].style.borderRadius = "4px";
 
             let f = new Date(window.serviceData[id].firstSeen);
             let p0 = (n, l = 2) => n.toString().padStart(l, "0");
@@ -44,7 +60,7 @@ async function renderServiceList() {
 
     // Clear child in tbody
     [...tableData.children].forEach(v => tableData.removeChild(v));
-    
+
     // Add new child
     tdr.forEach(v => tableData.appendChild(v));
 }

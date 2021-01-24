@@ -1,6 +1,12 @@
 window.serviceData = {};
 window.activeRender = [];
 
+window.viewAdditionalInfo = function (id) {
+    document.getElementById("viewDetails").style.display = "block";
+    document.getElementById("detailsID").innerText = id;
+    document.getElementById("detailsRawData").value = JSON.stringify(window.serviceData[id], null, 4);
+}
+
 function queueFS() { }
 
 function renderServiceList() {

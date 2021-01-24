@@ -14,7 +14,7 @@ function uintToInt(bytes4) {
     return bytes4 > 2 ** 31 - 1 ? bytes4 - 2 ** 32 : bytes4;
 }
 
-function intToUInt(sbytes4) {
+function intToUInt(bytes4) {
     return bytes4 < 0 ? bytes4 + 2 ** 32 : bytes4;
 }
 

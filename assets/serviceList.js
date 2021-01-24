@@ -116,10 +116,11 @@ window.addEventListener("load", async () => {
         let initialData = await socket.sendAsyncACK({
             callEvent: "initialList"
         });
-        await Promise.all(initialData.map(x => {
+
+        for (let x of initialData) {
             window.serviceData[x.id] = x;
-            return registerActiveService(x.id);
-        }));
+            await registerActiveService(x.id);
+        }
         renderServiceList();
 
         document.querySelector("div#loadingScreen").animate([

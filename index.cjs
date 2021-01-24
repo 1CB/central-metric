@@ -104,8 +104,8 @@ function intToUInt(bytes4) {
                         let d = await BotList.findAll({
                             limit: 20,
                             order: [
-                                ['firstSeen', 'ASC'],
-                                ['uptimeResolved', 'DESC']
+                                ['uptimeResolved', 'DESC'],
+                                ['firstSeen', 'ASC']
                             ],
                             where: {
                                 validPingUntil: {

@@ -120,13 +120,9 @@ window.addEventListener("load", async () => {
         return new Promise(x => socket.send(...d, x));
     }
     window.ioSocket = socket;
-    socket.on("connect", async () => {
+    socket.once("connect", async () => {
         await initList();
 
-        STATUS.innerHTML = "";
-        STATUS.style.display = "none";
-    })
-    socket.once("connect", async () => {
         document.querySelector("div#loadingScreen").animate([
             {
                 opacity: 1
@@ -138,6 +134,13 @@ window.addEventListener("load", async () => {
         document.body.style.overflow = "auto";
         await new Promise(x => setTimeout(x, 1499));
         document.querySelector("div#loadingScreen").style.display = "none";
+
+        socket.on("connect", async () => {
+            await initList();
+    
+            STATUS.innerHTML = "";
+            STATUS.style.display = "none";
+        })
     });
     socket.on("disconnect", () => {
         STATUS.innerHTML = "Connection lost!";

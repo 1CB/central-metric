@@ -124,7 +124,7 @@ function intToUInt(bytes4) {
                         })).sort(
                             (a, b) => b.uptime - a.uptime
                         ).sort(
-                            (a, b) => Math.abs(b.uptime - a.uptime) > 5 ? 
+                            (a, b) => Math.abs(b.uptime - a.uptime) > 2 ? 
                                 0 : 
                                 a.firstSeen.getTime() - b.firstSeen.getTime()
                         ));

@@ -73,7 +73,12 @@ function intToUInt(sbytes4) {
     await sequelize.sync();
 
     let wsio = require("socket.io");
-    let APIWS = new wsio.Server(server);
+    let APIWS = new wsio.Server(server, {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"]
+        }
+    });
     let APIWS_PING = APIWS.of("/service_ping");
     let APIWS_DATA = APIWS.of("/service_list");
 
@@ -117,7 +122,7 @@ function intToUInt(sbytes4) {
                             firstSeen: v.firstSeen,
                             validPingUntil: v.validPingUntil
                         })));
-                    
+
                 }
             });
         }

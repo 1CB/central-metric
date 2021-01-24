@@ -114,7 +114,7 @@ function intToUInt(sbytes4) {
                             }
                         });
                         return ack(d.map(v => v.get()).map(v => ({
-                            id: v.id.toString(16).padStart(8, "0"),
+                            id: intToUInt(v.id).toString(16).padStart(8, "0"),
                             extraData: v.extraData,
                             uptime: v.uptimeResolved,
                             type: v.type,

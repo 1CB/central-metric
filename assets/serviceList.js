@@ -59,7 +59,7 @@ async function registerActiveService(id) {
     }
 }
 function isActiveService(id) {
-    return window.activeRender.contains(id);
+    return window.activeRender.includes(id);
 }
 
 window.addEventListener("load", async () => {
@@ -95,7 +95,7 @@ window.addEventListener("load", async () => {
             }
         ], 1000);
         await new Promise(x => setTimeout(x, 1000));
-        document.body.style.overflow = "scroll";
+        document.body.style.overflow = "auto";
         document.querySelector("div#loadingScreen").style.display = "none";
     });
     socket.on("disconnect", () => {

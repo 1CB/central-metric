@@ -18,6 +18,48 @@ function intToUInt(bytes4) {
     return bytes4 < 0 ? bytes4 + 2 ** 32 : bytes4;
 }
 
+/**
+ * 
+ * @param CC 
+ * @param {boolean} online 
+ * 
+ * @return {[number[], number]}
+ */
+function calculateUptime(CC, online) {
+    /** @type {number[]} */
+    let ut = JSON.parse(CC.get("uptime"));
+    if (Date.now() > CC.get("validPingUntil").getTime()) {
+        // Update uptime
+        if (ut.length % 2 === 0) {
+            ut.push(CC.get("validPingUntil").getTime());
+        }
+        online ? ut.push(Date.now()) : "";
+    }
+    ut = ut.sort((a, b) => b - a);
+
+    let startFrom = ut.reverse().findIndex(v => v < Date.now() - (1000 * 3600 * 24 * 7));
+    let temp = [];
+    if (startFrom === -1) {
+        // All of them. 
+        temp = [CC.get("firstSeen").getTime(), ...ut];
+    } else {
+        let actualStart = ut.length - 1 - startFrom;
+        if (actualStart % 2 === 0) {
+            temp = ut.slice(actualStart + 1);
+        } else {
+            temp = [Date.now() - (1000 * 3600 * 24 * 7), ...ut.slice(actualStart + 1)];
+        }
+    }
+
+    let temp2 = [];
+    for (let i = 0; i < Math.ceil(temp.length / 2); i++) {
+        temp2.push([temp[2 * i], temp[2 * i + 1]]);
+    }
+    let temp3 = temp2.map(v => v[1] ? v[1] - v[0] : Date.now() - v[0]);
+    let percentageRange = Date.now() - temp[0];
+    return [ut, temp3.reduce((a, v) => a + v, 0) / percentageRange];
+}
+
 (async () => {
     require("dotenv").config();
 
@@ -113,19 +155,26 @@ function intToUInt(bytes4) {
                                 }
                             }
                         });
-                        return ack(d.map(v => v.get()).map(v => ({
-                            id: intToUInt(v.id).toString(16).padStart(8, "0"),
-                            extraData: v.extraData,
-                            uptime: v.uptimeResolved,
-                            type: v.type,
-                            version: v.version,
-                            firstSeen: v.firstSeen,
-                            validPingUntil: v.validPingUntil
-                        })).sort(
+                        return ack(d.map(v => [v, v.get()]).map(([CC, v]) => {
+                            let [ut, uptimePercentage] = calculateUptime(CC, false);
+                            CC.update({
+                                uptime: JSON.stringify(ut),
+                                uptimeResolved: uptimePercentage
+                            })
+                            return {
+                                id: intToUInt(v.id).toString(16).padStart(8, "0"),
+                                extraData: v.extraData,
+                                uptime: uptimePercentage,
+                                type: v.type,
+                                version: v.version,
+                                firstSeen: v.firstSeen,
+                                validPingUntil: v.validPingUntil
+                            }
+                        }).sort(
                             (a, b) => b.uptime - a.uptime
                         ).sort(
-                            (a, b) => Math.abs(b.uptime - a.uptime) > 2 ? 
-                                0 : 
+                            (a, b) => Math.abs(b.uptime - a.uptime) > 2 ?
+                                0 :
                                 a.firstSeen.getTime() - b.firstSeen.getTime()
                         ));
                     case "listenServiceChange":
@@ -247,40 +296,9 @@ function intToUInt(bytes4) {
                         if (typeof msg.version === "string") updateObj.version = msg.version;
                         if (typeof msg.extraData === "string" && !validJSONObject(msg.extraData)) updateObj.extraData = msg.extraData;
 
-                        /** @type {number[]} */
-                        let ut = JSON.parse(CC.get("uptime"));
-                        if (Date.now() > CC.get("validPingUntil").getTime()) {
-                            // Update uptime
-                            if (ut.length % 2 === 0) {
-                                ut.push(CC.get("validPingUntil").getTime());
-                            }
-                            ut.push(Date.now());
-                        }
-                        ut = ut.sort((a, b) => b - a);
-
                         // Calculating uptime percentage (based on last 7 days)
-                        let startFrom = ut.reverse().findIndex(v => v < Date.now() - (1000 * 3600 * 24 * 7));
-                        let temp = [];
-                        if (startFrom === -1) {
-                            // All of them. 
-                            temp = [CC.get("firstSeen").getTime(), ...ut];
-                        } else {
-                            let actualStart = ut.length - 1 - startFrom;
-                            if (actualStart % 2 === 0) {
-                                temp = ut.slice(actualStart + 1);
-                            } else {
-                                temp = [Date.now() - (1000 * 3600 * 24 * 7), ...ut.slice(actualStart + 1)];
-                            }
-                        }
-
-                        let temp2 = [];
-                        for (let i = 0; i < Math.ceil(temp.length / 2); i++) {
-                            temp2.push([temp[2 * i], temp[2 * i + 1]]);
-                        }
-                        let temp3 = temp2.map(v => v[1] ? v[1] - v[0] : Date.now() - v[0]);
-                        let percentageRange = Date.now() - temp[0];
-                        let uptimePercentage = temp3.reduce((a, v) => a + v, 0) / percentageRange;
-
+                        let [ut, uptimePercentage] = calculateUptime(CC, true);
+                        
                         CC.update({
                             ...updateObj,
                             uptime: JSON.stringify(ut),

@@ -197,8 +197,6 @@ tr:last-child td:last-child {
     background-color: white;
     display: none;
     background-color: rgba(0, 0, 0, 0.5);
-    vertical-align: center;
-    align-items: center;
 }
 
 #windowDetails {
@@ -207,7 +205,7 @@ tr:last-child td:last-child {
     max-width: 80%;
     max-height: 80%;
     min-width: 100px;
-    min-height: 100px;
+    min-height: 16px;
     margin: 0 auto;
 
     border-top: 1px solid white;
@@ -216,8 +214,12 @@ tr:last-child td:last-child {
     border-bottom: 1px solid black;
 
     justify-self: center;
-    overflow-y: auto;
-    overflow-x: auto;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
 
 .windowBar {
@@ -255,6 +257,7 @@ tr:last-child td:last-child {
 .windowContent {
     background: rgb(192, 192, 192);
     padding: 4px;
+    max-height: 100%;
 }
 
 .windowCBox {
@@ -265,13 +268,13 @@ tr:last-child td:last-child {
 
 #detailsRawData {
     width: 100%;
-    height: 4em;
+    height: 6em;
     font-family: 'Courier New', Courier, monospace;
 }
 
 #detailsDesc {
     width: 100%;
     min-width: 25ex;
-    height: 4em;
+    height: 6em;
     font-family: 'Courier New', Courier, monospace;
 }

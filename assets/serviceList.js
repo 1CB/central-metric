@@ -97,11 +97,25 @@ async function registerActiveService(id) {
         window.activeRender.push(id);
     }
 }
+async function deregisterActiveService(id) {
+    if (isActiveService(id)) {
+        if (window.ioSocket) {
+            await window.ioSocket.sendAsyncACK({
+                callEvent: "stopListenServiceChange",
+                id
+            });
+            window.activeRender.splice(window.activeRender.indexOf(id), 1);
+        }
+    }
+}
+
 function isActiveService(id) {
     return window.activeRender.includes(id);
 }
 
 async function initList() {
+    await Promise.all(window.activeRender.map(deregisterActiveService));
+
     /** @type {Array<{id: string}>} */
     let initialData = await window.ioSocket.sendAsyncACK({
         callEvent: "initialList"
@@ -126,6 +140,8 @@ window.addEventListener("load", async () => {
     socket.once("connect", async () => {
         await initList();
 
+        STATUS.innerHTML = "";
+        STATUS.style.display = "none";
         document.querySelector("div#loadingScreen").animate([
             {
                 opacity: 1
@@ -137,8 +153,6 @@ window.addEventListener("load", async () => {
         document.body.style.overflow = "auto";
         await new Promise(x => setTimeout(x, 1499));
         document.querySelector("div#loadingScreen").style.display = "none";
-        STATUS.innerHTML = "";
-        STATUS.style.display = "none";
         socket.on("connect", async () => {
             await initList();
 

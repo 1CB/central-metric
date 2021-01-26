@@ -193,6 +193,22 @@ function calculateUptime(CC, online) {
                         });
                         await socket.leave("s_" + msg.id);
                         return ack({ success: true });
+                    case "stats":
+                        let botList = await BotList.findAndCountAll();
+                        let activeBot = botList.rows.reduce((a, model) => {
+                            return model.get("validPingUntil").getTime() > Date.now() ?
+                                ++a :
+                                a;
+                        }, 0);
+                        let avgUptime = botList.rows.reduce(
+                            (a, model) => a + model.get("uptimeResolved"), 0
+                        ) / botList.count;
+                        return ack({
+                            success: true,
+                            registered: botList.count,
+                            activeService: activeBot,
+                            avgUptime
+                        });
                 }
             });
         }
@@ -298,7 +314,7 @@ function calculateUptime(CC, online) {
 
                         // Calculating uptime percentage (based on last 7 days)
                         let [ut, uptimePercentage] = calculateUptime(CC, true);
-                        
+
                         CC.update({
                             ...updateObj,
                             uptime: JSON.stringify(ut),

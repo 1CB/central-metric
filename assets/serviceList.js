@@ -1,6 +1,39 @@
 window.serviceData = {};
 window.activeRender = [];
 
+async function updateStats() {
+    if (window.ioSocket && window.ioSocket.connected) {
+        let d = await window.ioSocket.sendAsyncACK({
+            callEvent: "stats"
+        });
+
+        document.getElementById("statActiveCount").innerText = `${d.activeService}/${d.registered}`;
+        
+        let u = trChild[3].appendChild(document.createElement("div"));
+        u.innerText = Math.round((d.avgUptime > 1 ? 1 : d.avgUptime) * 100) + "%";
+
+        u.style.backgroundColor = (() => {
+            switch (true) {
+                case d.avgUptime >= 0.895:
+                    return "green";
+                case d.avgUptime >= 0.695:
+                    return "yellow";
+                default:
+                    return "red";
+            }
+        })();
+
+        u.style.backgroundColor = "red";
+        u.style.color = "white";
+        u.style.borderRadius = "6px";
+        u.style.width = "fit-content";
+        u.style.height = "fit-content";
+        u.style.textShadow = "-1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000";
+        u.style.paddingLeft = u.style.paddingRight =
+            u.style.paddingTop = u.style.paddingBottom = "4px";
+    }
+}
+
 window.viewAdditionalInfo = function (id) {
     let extraData = JSON.parse((window.serviceData[id] || {}).extraData || "{}");
     document.getElementById("viewDetails").style.display = "block";
@@ -114,6 +147,12 @@ function isActiveService(id) {
 }
 
 async function initList() {
+    try {
+        clearInterval(window.statUpdateClock);
+    } catch (_) {}
+    window.statUpdateClock = setInterval(updateStats, 60000);
+    await updateStats();
+
     await Promise.all(window.activeRender.map(deregisterActiveService));
 
     /** @type {Array<{id: string}>} */

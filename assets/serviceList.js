@@ -9,7 +9,7 @@ async function updateStats() {
 
         document.getElementById("statActiveCount").innerText = `${d.activeService}/${d.registered}`;
         
-        let u = trChild[3].appendChild(document.createElement("div"));
+        let u = document.createElement("div");
         u.innerText = Math.round((d.avgUptime > 1 ? 1 : d.avgUptime) * 100) + "%";
 
         u.style.backgroundColor = (() => {
@@ -31,6 +31,10 @@ async function updateStats() {
         u.style.textShadow = "-1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000";
         u.style.paddingLeft = u.style.paddingRight =
             u.style.paddingTop = u.style.paddingBottom = "4px";
+
+        const AVGUPTIME = document.getElementById("statAvgUptime");
+        [...AVGUPTIME.children].forEach(e => AVGUPTIME.removeChild(e));
+        AVGUPTIME.appendChild(u);
     }
 }
 

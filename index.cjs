@@ -186,7 +186,7 @@ function calculateUptime(CC, online) {
                         await socket.join("s_" + msg.id);
                         return ack({ success: true });
                     case "stopListenServiceChange":
-                        if (typeof msg.id !== "string" || isNaN(parseInt(msg.id))) return ack({
+                        if (typeof msg.id !== "string" || isNaN(parseInt(msg.id, 16))) return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.id must be a valid ID string.",
                             errorCode: 101

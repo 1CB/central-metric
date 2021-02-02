@@ -178,7 +178,7 @@ function calculateUptime(CC, online) {
                                 a.firstSeen.getTime() - b.firstSeen.getTime()
                         ));
                     case "listenServiceChange":
-                        if (typeof msg.id !== "string" || isNaN(parseInt(msg.id))) return ack({
+                        if (typeof msg.id !== "string" || isNaN(parseInt(msg.id, 16))) return ack({
                             error: "Invalid API call.",
                             errorDesc: "message.id must be a valid ID string.",
                             errorCode: 101

@@ -206,7 +206,11 @@ function calculateUptime(CC, online) {
                         let countType = {};
                         for (let row of botList.rows) {
                             let t = row.get("type") + " " + row.get("version");
-                            countType[t] = (countType[t] ?? 0) + 1;
+                            countType[t] = countType[t] ?? {
+                                active: 0,
+                                inactive: 0
+                            };
+                            countType[t][model.get("validPingUntil").getTime() > Date.now() ? "active" : "inactive"]++;
                         }
                         return ack({
                             success: true,

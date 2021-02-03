@@ -203,11 +203,17 @@ function calculateUptime(CC, online) {
                         let avgUptime = botList.rows.reduce(
                             (a, model) => a + model.get("uptimeResolved"), 0
                         ) / botList.count;
+                        let countType = {};
+                        for (let row of botList.rows) {
+                            let t = row.get("type") + " " + row.get("version");
+                            countType[t] = (countType[t] ?? 0) + 1;
+                        }
                         return ack({
                             success: true,
                             registered: botList.count,
                             activeService: activeBot,
-                            avgUptime
+                            avgUptime,
+                            countType
                         });
                 }
             });

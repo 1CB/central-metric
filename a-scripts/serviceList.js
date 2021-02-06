@@ -9,7 +9,7 @@ async function updateStats() {
         });
 
         document.getElementById("statActiveCount").innerText = `${d.activeService}/${d.registered}`;
-        
+
         let u = document.createElement("div");
         u.style.display = "inline-block";
         u.innerText = Math.round((d.avgUptime > 1 ? 1 : d.avgUptime) * 100) + "%";
@@ -48,7 +48,7 @@ async function updateStats() {
             if (d.countType[k].active !== 0)
                 window.SBCData.set(k, {
                     count: d.countType[k].active,
-                    color: (window.SBCData.get(k) || {}).color || 
+                    color: (window.SBCData.get(k) || {}).color ||
                         `${random(127, 200)}, ${random(127, 200)}, ${random(127, 200)}`
                 });
         }
@@ -183,7 +183,7 @@ function isActiveService(id) {
 async function initList() {
     try {
         clearInterval(window.statUpdateClock);
-    } catch (_) {}
+    } catch (_) { }
     window.statUpdateClock = setInterval(updateStats, 60000);
     await updateStats();
 
@@ -202,15 +202,17 @@ async function initList() {
 }
 
 window.addEventListener("load", async () => {
-    document.querySelector(".col1ResizeContainer").style.width = 
-        getComputedStyle(
+    document.querySelector(".col1ResizeContainer").style.maxWidth =
+        document.querySelector(".col1ResizeContainer").style.width =
+        (getComputedStyle(
             document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
-        ).width - 16;
+        ).width - 16) + "px";
     $(document).on("resize", () => {
-        document.querySelector(".col1ResizeContainer").style.width = 
-            getComputedStyle(
+        document.querySelector(".col1ResizeContainer").style.maxWidth =
+            document.querySelector(".col1ResizeContainer").style.width =
+            (getComputedStyle(
                 document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
-            ).width - 16;
+            ).width - 16) + "px";
     });
 
     /** @type {HTMLSpanElement} */

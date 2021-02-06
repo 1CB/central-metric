@@ -56,6 +56,7 @@ async function updateStats() {
         window.SBCChart.data = {
             labels: [...window.SBCData.keys()],
             datasets: [{
+                labels: [...window.SBCData.keys()],
                 data: [...window.SBCData.values()].map(x => x.count),
                 backgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 0.5)`),
                 hoverBackgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
@@ -261,6 +262,7 @@ window.addEventListener("load", async () => {
         data: {
             labels: [...window.SBCData.keys()],
             datasets: [{
+                labels: [...window.SBCData.keys()],
                 data: [...window.SBCData.values()].map(x => x.count),
                 backgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 0.5)`),
                 hoverBackgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
@@ -275,9 +277,12 @@ window.addEventListener("load", async () => {
             tooltips: {
                 enabled: true,
                 callbacks: {
-                    label(tooltipItem) {
-                        return `${tooltipItem.label}: ${tooltipItem.value} service${parseInt(tooltipItem.value) === 1 ? "" : "s"}`
-                    }
+                    label(tooltipItem, data) {
+                        let ds = data.datasets[tooltipItem.datasetIndex];
+                        let i = tooltipItem.index;
+                        return `${ds.labels[i]}: ${ds.data[i]} service${ds.data[i] === 1 ? "" : "s"}`
+                    },
+
                 }
             }
         }

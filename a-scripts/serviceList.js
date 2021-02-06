@@ -203,10 +203,14 @@ async function initList() {
 
 window.addEventListener("load", async () => {
     document.querySelector(".col1ResizeContainer").style.width = 
-        getComputedStyle(document.querySelector(".table-chart2 > .tcccontent")).width - 16;
+        getComputedStyle(
+            document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
+        ).width - 16;
     $(document).on("resize", () => {
         document.querySelector(".col1ResizeContainer").style.width = 
-            getComputedStyle(document.querySelector(".table-chart2 > .tcccontent")).width - 16;
+            getComputedStyle(
+                document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
+            ).width - 16;
     });
 
     /** @type {HTMLSpanElement} */

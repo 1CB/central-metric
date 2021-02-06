@@ -68,6 +68,7 @@ function calculateUptime(CC, online) {
     let http = require("http");
 
     app.use("/assets", express.static("./assets"));
+    app.use("/a-scripts", express.static("./a-scripts"));
     app.use("/", express.static("./views"));
 
     let server = http.createServer(app);

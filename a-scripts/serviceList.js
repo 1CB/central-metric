@@ -1,5 +1,6 @@
 window.serviceData = {};
 window.activeRender = [];
+window.SBCData = [];
 
 async function updateStats() {
     if (window.ioSocket && window.ioSocket.connected) {
@@ -15,9 +16,9 @@ async function updateStats() {
 
         u.style.backgroundColor = (() => {
             switch (true) {
-                case d.avgUptime >= 0.895:
+                case d.avgUptime >= 0.795:
                     return "green";
-                case d.avgUptime >= 0.695:
+                case d.avgUptime >= 0.645:
                     return "yellow";
                 default:
                     return "red";
@@ -36,6 +37,13 @@ async function updateStats() {
         const AVGUPTIME = document.getElementById("statAvgUptime");
         AVGUPTIME.innerHTML = "";
         AVGUPTIME.appendChild(u);
+
+
+        window.SBCData.splice(0, Infinity, ...Object.entries(d.countType).map(([bType, countObj]) => ({
+           y: countObj.active,
+           label: bType
+        })));
+        window.SBCChart.render();
     }
 }
 
@@ -213,5 +221,17 @@ window.addEventListener("load", async () => {
     socket.on("service_update", d => {
         window.serviceData[d.id] = d;
         if (isActiveService(d.id)) renderServiceList();
+    });
+
+
+    window.SBCChart = new CanvasJS.Chart("SBCContainer", {
+        animationEnabled: false,
+        data: [{
+            type: "pie",
+            startAngle: 240,
+            yValueFormatString: "0",
+            indexLabel: "{label} | {y}",
+            dataPoints: window.SBCData
+        }]
     });
 });

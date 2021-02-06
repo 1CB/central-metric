@@ -210,7 +210,7 @@ function calculateUptime(CC, online) {
                                 active: 0,
                                 inactive: 0
                             };
-                            countType[t][model.get("validPingUntil").getTime() > Date.now() ? "active" : "inactive"]++;
+                            countType[t][row.get("validPingUntil").getTime() > Date.now() ? "active" : "inactive"]++;
                         }
                         return ack({
                             success: true,

@@ -203,15 +203,15 @@ async function initList() {
 
 window.addEventListener("load", async () => {
     /** @type {HTMLDivElement} */
-    const C1 = document.querySelector(".table-chart1");
+    const C1 = document.querySelector(".SBCContainer");
 
-    C1.style.maxWidth = C1.style.width = getComputedStyle(
-        document.querySelector(".table-chart2")
-    ).width;
+    C1.style.height = C1.style.width = (parseInt(getComputedStyle(
+        document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
+    ).width) - 16) + "px";
     $(document).on("resize", () => {
-        C1.style.maxWidth = C1.style.width = getComputedStyle(
-            document.querySelector(".table-chart2")
-        ).width;
+        C1.style.height = C1.style.width = (parseInt(getComputedStyle(
+            document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
+        ).width) - 16) + "px";
     });
 
     /** @type {HTMLSpanElement} */
@@ -269,9 +269,7 @@ window.addEventListener("load", async () => {
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1
+            responsive: true
         }
     });
 });

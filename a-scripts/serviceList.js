@@ -49,7 +49,7 @@ async function updateStats() {
                 window.SBCData.set(k, {
                     count: d.countType[k].active,
                     color: (window.SBCData.get(k) || {}).color ||
-                        `${random(127, 200)}, ${random(127, 200)}, ${random(127, 200)}`
+                        `${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}`
                 });
         }
 
@@ -282,7 +282,14 @@ window.addEventListener("load", async () => {
                         let i = tooltipItem.index;
                         return `${ds.labels[i]}: ${ds.data[i]} service${ds.data[i] === 1 ? "" : "s"}`
                     },
-
+                    labelColor(tooltipItem, chart) {
+                        let ds = chart.data.datasets[tooltipItem.datasetIndex];
+                        let i = tooltipItem.index;
+                        return {
+                            borderColor: ds.borderColor[i],
+                            backgroundColor: ds.borderColor[i]
+                        }
+                    }
                 }
             }
         }

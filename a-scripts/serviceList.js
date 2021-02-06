@@ -52,6 +52,19 @@ async function updateStats() {
                         `${random(127, 200)}, ${random(127, 200)}, ${random(127, 200)}`
                 });
         }
+
+        window.SBCChart.data = {
+            labels: [...window.SBCData.keys()],
+            datasets: [{
+                data: [...window.SBCData.values()].map(x => x.count),
+                backgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 0.5)`),
+                hoverBackgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
+                borderColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
+                borderWidth: 1
+            }]
+        }
+
+        window.SBCChart.update();
     }
 }
 
@@ -231,7 +244,7 @@ window.addEventListener("load", async () => {
         if (isActiveService(d.id)) renderServiceList();
     });
 
-    window.SBCChart = new Chart(document.getElementById('SBCContainer').getContext('2d'), {
+    window.SBCChart = new Chart(document.getElementById('SBCCanvas').getContext('2d'), {
         type: 'pie',
         data: {
             labels: [...window.SBCData.keys()],

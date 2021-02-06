@@ -1,6 +1,6 @@
 window.serviceData = {};
 window.activeRender = [];
-window.SBCData = [];
+window.SBCData = new Map();
 
 async function updateStats() {
     if (window.ioSocket && window.ioSocket.connected) {
@@ -38,12 +38,20 @@ async function updateStats() {
         AVGUPTIME.innerHTML = "";
         AVGUPTIME.appendChild(u);
 
+        let random = (start, end) => Math.floor(Math.random() * (end - start)) + start;
 
-        window.SBCData.splice(0, Infinity, ...Object.entries(d.countType).map(([bType, countObj]) => ({
-           y: countObj.active,
-           label: bType
-        })));
-        window.SBCChart.render();
+        for (let v of window.SBCData.keys()) {
+            if (!d.countType[v]) window.SBCData.remove(v);
+        }
+
+        for (let k in d.countType) {
+            if (d.countType[k].active !== 0)
+                window.SBCData.set(k, {
+                    count: d.countType[k].active,
+                    color: (window.SBCData.get(k) || {}).color || 
+                        `${random(127, 200)}, ${random(127, 200)}, ${random(127, 200)}`
+                });
+        }
     }
 }
 
@@ -233,5 +241,23 @@ window.addEventListener("load", async () => {
             indexLabel: "{label} | {y}",
             dataPoints: window.SBCData
         }]
+    });
+
+    window.SBCChart = new Chart(document.getElementById('SBCContainer').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: [...window.SBCData.keys()],
+            datasets: [{
+                data: [...window.SBCData.values()].map(x => x.count),
+                backgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 0.5)`),
+                hoverBackgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
+                borderColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
     });
 });

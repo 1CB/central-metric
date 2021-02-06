@@ -202,17 +202,17 @@ async function initList() {
 }
 
 window.addEventListener("load", async () => {
-    /** @type {HTMLDivElement} */
-    const C1 = document.querySelector(".SBCContainer");
+    // /** @type {HTMLDivElement} */
+    // const C1 = document.querySelector(".SBCContainer");
 
-    C1.style.height = C1.style.width = (parseInt(getComputedStyle(
-        document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
-    ).width) - 16) + "px";
-    $(document).on("resize", () => {
-        C1.style.height = C1.style.width = (parseInt(getComputedStyle(
-            document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
-        ).width) - 16) + "px";
-    });
+    // C1.style.height = C1.style.width = (parseInt(getComputedStyle(
+    //     document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
+    // ).width) - 16) + "px";
+    // $(document).on("resize", () => {
+    //     C1.style.height = C1.style.width = (parseInt(getComputedStyle(
+    //         document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
+    //     ).width) - 16) + "px";
+    // });
 
     /** @type {HTMLSpanElement} */
     const STATUS = document.querySelector("span#status");
@@ -269,7 +269,9 @@ window.addEventListener("load", async () => {
             }]
         },
         options: {
-            responsive: true
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 1
         }
     });
 });

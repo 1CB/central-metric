@@ -202,17 +202,16 @@ async function initList() {
 }
 
 window.addEventListener("load", async () => {
-    document.querySelector(".col1ResizeContainer").style.maxWidth =
-        document.querySelector(".col1ResizeContainer").style.width =
-        (parseInt(getComputedStyle(
-            document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
-        ).width) - 16) + "px";
+    /** @type {HTMLDivElement} */
+    const C2 = document.querySelector(".table-chart2");
+
+    C2.style.maxWidth = C2.style.width = getComputedStyle(
+        document.querySelector(".table-chart2")
+    ).width;
     $(document).on("resize", () => {
-        document.querySelector(".col1ResizeContainer").style.maxWidth =
-            document.querySelector(".col1ResizeContainer").style.width =
-            (parseInt(getComputedStyle(
-                document.querySelector(".table-chart2 > .table-chart-content > .tcccontent")
-            ).width) - 16) + "px";
+        C2.style.maxWidth = C2.style.width = getComputedStyle(
+            document.querySelector(".table-chart2")
+        ).width;
     });
 
     /** @type {HTMLSpanElement} */

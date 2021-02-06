@@ -202,9 +202,11 @@ async function initList() {
 }
 
 window.addEventListener("load", async () => {
-    $("#colResizeContainer").width($(".table-chart2 > .tcccontent").width());
+    document.querySelector("#colResizeContainer").style.width = 
+        getComputedStyle(document.querySelector(".table-chart2 > .tcccontent")).width - 16;
     $(document).on("resize", () => {
-        $("#colResizeContainer").width($(".table-chart2 > .tcccontent").width());
+        document.querySelector("#colResizeContainer").style.width = 
+            getComputedStyle(document.querySelector(".table-chart2 > .tcccontent")).width - 16;
     });
 
     /** @type {HTMLSpanElement} */

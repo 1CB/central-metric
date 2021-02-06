@@ -203,13 +203,13 @@ async function initList() {
 
 window.addEventListener("load", async () => {
     /** @type {HTMLDivElement} */
-    const C2 = document.querySelector(".table-chart2");
+    const C1 = document.querySelector(".table-chart1");
 
-    C2.style.maxWidth = C2.style.width = getComputedStyle(
+    C1.style.maxWidth = C1.style.width = getComputedStyle(
         document.querySelector(".table-chart2")
     ).width;
     $(document).on("resize", () => {
-        C2.style.maxWidth = C2.style.width = getComputedStyle(
+        C1.style.maxWidth = C1.style.width = getComputedStyle(
             document.querySelector(".table-chart2")
         ).width;
     });

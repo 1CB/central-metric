@@ -64,7 +64,7 @@ async function updateStats() {
             }]
         }
 
-        window.SBCChart.update();
+        window.SBCChart.update(0);
     }
 }
 
@@ -202,6 +202,11 @@ async function initList() {
 }
 
 window.addEventListener("load", async () => {
+    $("#colResizeContainer").width($(".table-chart2 > .tcccontent").width());
+    $(document).on("resize", () => {
+        $("#colResizeContainer").width($(".table-chart2 > .tcccontent").width());
+    });
+
     /** @type {HTMLSpanElement} */
     const STATUS = document.querySelector("span#status");
 

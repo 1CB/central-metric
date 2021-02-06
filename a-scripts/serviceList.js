@@ -231,18 +231,6 @@ window.addEventListener("load", async () => {
         if (isActiveService(d.id)) renderServiceList();
     });
 
-
-    window.SBCChart = new CanvasJS.Chart("SBCContainer", {
-        animationEnabled: false,
-        data: [{
-            type: "pie",
-            startAngle: 240,
-            yValueFormatString: "0",
-            indexLabel: "{label} | {y}",
-            dataPoints: window.SBCData
-        }]
-    });
-
     window.SBCChart = new Chart(document.getElementById('SBCContainer').getContext('2d'), {
         type: 'pie',
         data: {

@@ -271,7 +271,15 @@ window.addEventListener("load", async () => {
         options: {
             responsive: true,
             maintainAspectRatio: true,
-            aspectRatio: 1
+            aspectRatio: 1,
+            tooltips: {
+                enabled: true,
+                callbacks: {
+                    label(tooltipItem) {
+                        return `${tooltipItem.label}: ${tooltipItem.value} service${parseInt(tooltipItem.value) === 1 ? "" : "s"}`
+                    }
+                }
+            }
         }
     });
 });

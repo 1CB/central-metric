@@ -2,6 +2,8 @@ window.serviceData = {};
 window.activeRender = [];
 window.SBCData = new Map();
 
+let random = (start, end) => (Math.random() * (end - start)) + start;
+
 async function updateStats() {
     if (window.ioSocket && window.ioSocket.connected) {
         let d = await window.ioSocket.sendAsyncACK({
@@ -38,8 +40,6 @@ async function updateStats() {
         AVGUPTIME.innerHTML = "";
         AVGUPTIME.appendChild(u);
 
-        let random = (start, end) => Math.floor(Math.random() * (end - start)) + start;
-
         for (let v of window.SBCData.keys()) {
             if (!d.countType[v]) window.SBCData.remove(v);
         }
@@ -49,7 +49,7 @@ async function updateStats() {
                 window.SBCData.set(k, {
                     count: d.countType[k].active,
                     color: (window.SBCData.get(k) || {}).color ||
-                        `${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}`
+                        `${random(0, 360).toFixed(2)}`
                 });
         }
 
@@ -58,9 +58,9 @@ async function updateStats() {
             datasets: [{
                 labels: [...window.SBCData.keys()],
                 data: [...window.SBCData.values()].map(x => x.count),
-                backgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 0.5)`),
-                hoverBackgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
-                borderColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
+                backgroundColor: [...window.SBCData.values()].map(x => `hsla(${x.color}, 100%, 50%, 0.5)`),
+                hoverBackgroundColor: [...window.SBCData.values()].map(x => `hsla(${x.color}, 100%, 50%, 1)`),
+                borderColor: [...window.SBCData.values()].map(x => `hsla(${x.color}, 100%, 50%, 1)`),
                 borderWidth: 1
             }]
         }
@@ -264,9 +264,9 @@ window.addEventListener("load", async () => {
             datasets: [{
                 labels: [...window.SBCData.keys()],
                 data: [...window.SBCData.values()].map(x => x.count),
-                backgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 0.5)`),
-                hoverBackgroundColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
-                borderColor: [...window.SBCData.values()].map(x => `rbga(${x.color}, 1)`),
+                backgroundColor: [...window.SBCData.values()].map(x => `hsla(${x.color}, 100%, 50%, 0.5)`),
+                hoverBackgroundColor: [...window.SBCData.values()].map(x => `hsla(${x.color}, 100%, 50%, 1)`),
+                borderColor: [...window.SBCData.values()].map(x => `hsla(${x.color}, 100%, 50%, 1)`),
                 borderWidth: 1
             }]
         },
